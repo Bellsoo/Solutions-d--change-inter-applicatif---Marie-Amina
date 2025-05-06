@@ -1,0 +1,57 @@
+/* ---------- STYLES GÉNÉRAUX (thème doux) ---------- */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #FAF3DD; /* Fond crème doux */
+    color: #2E1F27;            /* Texte brun foncé */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+    transition: all 0.3s ease;
+}
+
+h1 {
+    color: #2A9D8F; /* Vert doux */
+    margin-bottom: 10px;
+}
+
+.button-group {
+    margin: 20px;
+}
+
+button {
+    background-color: #F4A261; /* Rose saumoné */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    margin: 0 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #E76F51; /* Rouge doux en hover */
+}
+
+pre {
+    background-color: #FFF5CC; /* Jaune clair doux */
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+footer {
+    margin-top: auto;
+    padding: 10px;
+    font-size: 14px;
+    color: #2A9D8F; /* Rappel de vert doux */
+}

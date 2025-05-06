@@ -1,11 +1,22 @@
-
 # Importation de FastAPI
 from fastapi import FastAPI
 # Importation d'autres outils FastAPI pour la sécurité
 from fastapi import Header, HTTPException
+# Importation de CORS qui est un mécanisme de sécurité des navigateurs.
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # Création d'une instance de FastAPI
 app = FastAPI()
+
+# Configuration CORS : autorise les appels depuis tous les domaines
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En production, il faut remplacer l'étoile par une URL précise, dite "autorisée"
+    allow_credentials=True,
+    allow_methods=["*"],  # Autorise toutes les méthodes (GET, POST, etc.)
+    allow_headers=["*"],  # Autorise tous les headers, y compris le token
+)
 
 # Déclaration d'un endpoint GET accessible via l'URL /personnages écurisé avec un token en header HTTP
 @app.get("/personnages")

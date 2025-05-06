@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>API Naruto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Personnages de Naruto</h1>
+
+    <div class="button-group">
+        <button onclick="chargerPersonnages()">Charger</button>
+        <button onclick="cacherPersonnages()">Cacher</button>
+    </div>
+
+    <pre id="resultat" style="display: none;"></pre>
+
+    <footer>Test API sécurisée – Belkis 💛</footer>
+
+    <script>
+        async function chargerPersonnages() {
+            try {
+                const response = await fetch("http://localhost:8000/personnages", {
+                    method: "GET",
+                    headers: {
+                        "token": "ceci_est_un_token"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erreur HTTP : " + response.status);
+                }
+
+                const data = await response.json();
+                const pre = document.getElementById("resultat");
+                pre.style.display = "block";
+                pre.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                const pre = document.getElementById("resultat");
+                pre.style.display = "block";
+                pre.textContent = "Erreur : " + err.message;
+            }
+        }
+
+        function cacherPersonnages() {
+            document.getElementById("resultat").style.display = "none";
+        }
+    </script>
+</body>
+</html>
