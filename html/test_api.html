@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test API personnages</title>
+</head>
+<body>
+
+    <h2>Requête vers l'API Naruto (GET /personnages)</h2>
+
+    <!-- Bouton qui déclenche l'appel à l'API quand on clique dessus -->
+    <button onclick="getPersonnages()">Tester la requête</button>
+
+    <!-- Élément HTML où seront affichés les résultats ou les erreurs -->
+    <pre id="output"></pre>
+
+    <!-- Script JavaScript contenant la fonction d'appel à l'API -->
+    <script>
+        // Fonction déclenchée lorsqu'on clique sur le bouton
+        async function getPersonnages() {
+            try {
+                // Appel de l'API FastAPI en méthode GET
+                const response = await fetch("http://localhost:8000/personnages", {
+                    method: "GET",  // Méthode HTTP utilisée
+                    headers: {
+                        // Header "token" obligatoire pour l’authentification
+                        "token": "ceci_est_un_token" 
+                    }
+                });
+
+                // Vérifie si le statut HTTP est 200 (OK)
+                if (response.ok) {
+                    // Convertit la réponse en JSON
+                    const data = await response.json();
+
+                    // Affiche le résultat dans la console du navigateur
+                    console.log("Succès :", data);
+
+                    // Affiche le JSON dans la page web (dans <pre>)
+                    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+                } else {
+                    // Si le code HTTP ≠ 200, on affiche l’erreur dans la page
+                    console.error("Erreur HTTP :", response.status);
+                    document.getElementById("output").textContent = `Erreur HTTP : ${response.status}`;
+                }
+
+            } catch (error) {
+                // Gère les erreurs réseau ou inattendues (ex : API éteinte)
+                console.error("Erreur de réseau :", error);
+                document.getElementById("output").textContent = `Erreur réseau : ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
