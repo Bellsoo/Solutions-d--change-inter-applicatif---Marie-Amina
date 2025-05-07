@@ -6,6 +6,9 @@ from fastapi import Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
+import json
+import os
+
 
 
 
@@ -97,6 +100,28 @@ async def recevoir_personnage(data: WebhookPersonnage):
         "niveau": niveau
     }
 
+
+    # Chemin du fichier d'enregistrement
+    chemin_fichier = "webhook_log.json"
+
+    # Lecture ou création du fichier
+    if os.path.exists(chemin_fichier):
+        try:
+            with open(chemin_fichier, "r", encoding="utf-8") as f:
+                contenu = json.load(f)
+        except json.JSONDecodeError:
+            contenu = []  # fichier vide ou corrompu
+    else:
+        contenu = []
+
+    # Ajout du nouveau personnage
+    contenu.append(personnage)
+
+    # Écriture dans le fichier (en réécrivant toute la liste)
+    with open(chemin_fichier, "w", encoding="utf-8") as f:
+        json.dump(contenu, f, indent=2, ensure_ascii=False)
+        
+        
     print("Personnage reçu :", personnage)
 
     return {

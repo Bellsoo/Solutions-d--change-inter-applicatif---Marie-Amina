@@ -1,0 +1,17 @@
+[
+  {
+    "nom": "Hinata",
+    "score": 72,
+    "niveau": "intermédiaire"
+  },
+  {
+    "nom": "Shikamaru",
+    "score": 83,
+    "niveau": "expert"
+  },
+  {
+    "nom": "Orochimaru",
+    "score": 95,
+    "niveau": "master"
+  }
+]
