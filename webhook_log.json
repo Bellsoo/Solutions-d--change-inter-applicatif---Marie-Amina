@@ -13,5 +13,10 @@
     "nom": "Orochimaru",
     "score": 95,
     "niveau": "master"
+  },
+  {
+    "nom": "Sakura",
+    "score": 87,
+    "niveau": "expert"
   }
 ]

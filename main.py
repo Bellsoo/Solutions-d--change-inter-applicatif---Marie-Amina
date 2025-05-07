@@ -123,6 +123,14 @@ async def recevoir_personnage(data: WebhookPersonnage):
         
         
     print("Personnage reçu :", personnage)
+    
+    
+    # Notification : enregistrer un message dans notifications.txt
+    with open("notifications.txt", "a", encoding="utf-8") as notif_file:
+        notif_file.write(f"Personnage {nom} reçu avec le niveau {niveau}\n")
+
+    
+    
 
     return {
         "status": "ok",
