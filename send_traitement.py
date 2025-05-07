@@ -7,7 +7,7 @@ API_URL = "http://localhost:8000/traitement"
 # Chemin vers le fichier JSON d'entrée
 FICHIER_ENTREE = "donnees_filtrees.json"
 
-# Fichier où on va sauvegarder les résultats 
+# Fichier où on va sauvegarder les résultats
 FICHIER_SORTIE = "resultats_traitement.json"
 
 # Chargement des données depuis le fichier JSON
@@ -19,25 +19,32 @@ resultats = []
 
 # Envoi de chaque personnage vers /traitement
 for p in personnages:
+    # Préparation des données au format attendu par l'API
     data = {
-        "nom": p.get("name", "Inconnu"),      # récupère le champ name, si il n'y a pas de name => inconnu
-        "score": int(p.get("income_amount", 0))  # récupère le revenu du personnage, sinon 0
+        "nom": p.get("name", "inconnu"),
+        "score": int(p.get("income_amount", 0))
     }
 
     try:
         response = requests.post(API_URL, json=data, timeout=10)
 
         if response.status_code == 200:
-            print(f"Envoyé : {data['nom']}")
             resultat = response.json()
+            nom = resultat.get("nom")
+            niveau = resultat.get("niveau")
+
+            # Résumé affiché dans la console
+            print(f"{nom} → niveau calculé : {niveau}")
+
             resultats.append(resultat)
         else:
-            print(f"Erreur {response.status_code} pour {data['nom']}")
-    except requests.exceptions.RequestException as e:
-        print(f"Problème réseau avec {data['nom']} : {e}")
+            print(f"Erreur {response.status_code} pour {data.get('nom', 'inconnu')}")
 
-# On va sauvegarder des résultats dans un fichier
+    except requests.exceptions.RequestException as e:
+        print(f"Problème réseau avec {data.get('nom', 'inconnu')} : {e}")
+
+# Sauvegarde des résultats dans un fichier
 with open(FICHIER_SORTIE, "w", encoding="utf-8") as f:
     json.dump(resultats, f, indent=2, ensure_ascii=False)
 
-print(f"Traitement terminé : {len(resultats)} éléments traités")
+print(f"\nTraitement terminé : {len(resultats)} éléments traités et enregistrés dans {FICHIER_SORTIE}")
