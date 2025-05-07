@@ -73,13 +73,13 @@ def add_score(score: Score, token: str = Header(...)):
 # ---------------------
 
 # Modèle pour recevoir un personnage via webhook
-class WebhookPersonnage(BaseModel):
+class TraitementRequest(BaseModel):
     nom: str
     score: int
 
 # Endpoint webhook qui reçoit un personnage + calcule son niveau
 @app.post("/webhook/personnage")
-async def recevoir_personnage(data: WebhookPersonnage):
+async def recevoir_personnage(data: TraitementRequest):
     nom = data.nom
     score = data.score
 
@@ -99,6 +99,7 @@ async def recevoir_personnage(data: WebhookPersonnage):
         "score": score,
         "niveau": niveau
     }
+    
 
 
     # Chemin du fichier d'enregistrement
@@ -128,13 +129,32 @@ async def recevoir_personnage(data: WebhookPersonnage):
     # Notification : enregistrer un message dans notifications.txt
     with open("notifications.txt", "a", encoding="utf-8") as notif_file:
         notif_file.write(f"Personnage {nom} reçu avec le niveau {niveau}\n")
-
-    
     
 
     return {
         "status": "ok",
         "personnage": personnage
+    }
+
+@app.post("/traitement")
+async def traitement(data: TraitementRequest):
+    nom = data.nom
+    score = data.score
+
+    # Calcul du niveau
+    if score >= 90:
+        niveau = "master"
+    elif score >= 75:
+        niveau = "expert"
+    elif score >= 50:
+        niveau = "intermédiaire"
+    else:
+        niveau = "débutant"
+
+    return {
+        "nom": nom,
+        "score": score,
+        "niveau": niveau
     }
 
 
