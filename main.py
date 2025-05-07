@@ -63,6 +63,48 @@ def add_score(score: Score, token: str = Header(...)):
     return {"message": "Score reçu avec succès", "data": score}
 
 
+
+
+# ---------------------
+# POST /webhook/personnage
+# ---------------------
+
+# Modèle pour recevoir un personnage via webhook
+class WebhookPersonnage(BaseModel):
+    nom: str
+    score: int
+
+# Endpoint webhook qui reçoit un personnage + calcule son niveau
+@app.post("/webhook/personnage")
+async def recevoir_personnage(data: WebhookPersonnage):
+    nom = data.nom
+    score = data.score
+
+    # Calcul du niveau en fonction du score
+    if score >= 90:
+        niveau = "master"
+    elif score >= 75:
+        niveau = "expert"
+    elif score >= 50:
+        niveau = "intermédiaire"
+    else:
+        niveau = "débutant"
+
+    # Création du dictionnaire enrichi
+    personnage = {
+        "nom": nom,
+        "score": score,
+        "niveau": niveau
+    }
+
+    print("Personnage reçu :", personnage)
+
+    return {
+        "status": "ok",
+        "personnage": personnage
+    }
+
+
 # Voici le lien pour tester dans swagger : http://localhost:8000/docs
 # Pour l'exercice 2, nous avons try out le token, lorsqu'on met le bon token nous avons les informations 
 # relatif aux personnages. Dans le cas d'un faux token, nous avons "token invaldie"
